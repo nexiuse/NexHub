@@ -43,12 +43,12 @@ local currentPlaceId = game.PlaceId
 -- type = "premium" : harus verifikasi key dulu
 local GameList = {
     -- FREE GAMES
-    { name = "FishZar",           placeIds = {121442629947656},                    type = "free",    scriptUrl = "https://raw.githubusercontent.com/nexiuse/nexhub-scripts/main/FishZar.lua" },
-    { name = "Fish God",          placeIds = {121500015379301},                    type = "free",    scriptUrl = "https://raw.githubusercontent.com/nexiuse/nexhub-scripts/main/FishGod.lua" },
+    { name = "FishZar",           placeIds = {121442629947656},                    type = "free",    scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubFishZar.lua" },
+    { name = "Fish God",          placeIds = {121500015379301},                    type = "free",    scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubFishGod.lua" },
 
     -- PREMIUM GAMES (Butuh Key)
-    { name = "Blox Fruits",       placeIds = {2753915549, 4442272183, 7449423635}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/nexhub-scripts/main/BloxFruits.lua" },
-    { name = "Violence District", placeIds = {93978595733734},                    type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/nexhub-scripts/main/ViolenceDistrict.lua" },
+    { name = "Blox Fruits",       placeIds = {2753915549, 4442272183, 7449423635}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/BloxFruitsLuxv'SHubXNex_protected.lua" },
+    { name = "Violence District", placeIds = {93978595733734},                    type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubVD.lua" },
 }
 
 -- ============================================
