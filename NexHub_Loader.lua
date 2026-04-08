@@ -37,6 +37,7 @@ local API_URL = "https://nexhubser-api-production.up.railway.app/api/verify"
 
 local HttpService = game:GetService("HttpService")
 local currentPlaceId = game.PlaceId
+local currentGameId = game.GameId
 
 -- Daftar game yang didukung
 -- type = "free" : langsung masuk tanpa key
@@ -45,7 +46,7 @@ local GameList = {
     -- FREE GAMES
     { name = "FishZar",           placeIds = {121442629947656},                    type = "free",    scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubFishZar.lua" },
     { name = "Fish God",          placeIds = {121500015379301},                    type = "free",    scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubFishGod.lua" },
-    { name = "Survive The Apocalypse",  placeIds = {90148635862803},               type = "free",    scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSurviveTheApocalypse.lua" },
+    { name = "Survive The Apocalypse",  placeIds = {90148635862803}, gameIds = {9098570654}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSurviveTheApocalypse.lua" },
 
     -- PREMIUM GAMES (Butuh Key)
     { name = "Blox Fruits",       placeIds = {2753915549, 4442272183, 7449423635}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/BloxFruitsLuxv'SHubXNex_protected.lua" },
@@ -59,10 +60,14 @@ local GameList = {
 local detectedGame = nil
 
 for _, gameInfo in ipairs(GameList) do
-    for _, pid in ipairs(gameInfo.placeIds) do
-        if currentPlaceId == pid then
-            detectedGame = gameInfo
-            break
+    if gameInfo.placeIds then
+        for _, pid in ipairs(gameInfo.placeIds) do
+            if currentPlaceId == pid then detectedGame = gameInfo break end
+        end
+    end
+    if not detectedGame and gameInfo.gameIds then
+        for _, gid in ipairs(gameInfo.gameIds) do
+            if currentGameId == gid then detectedGame = gameInfo break end
         end
     end
     if detectedGame then break end
@@ -74,7 +79,7 @@ end
 if not detectedGame then
     WindUI:Notify({
         Title = "NexHub Loader",
-        Content = "Game ini tidak didukung oleh NexHub. (PlaceId: " .. tostring(currentPlaceId) .. ")",
+        Content = "Game tidak dikenali.\nPlaceId: " .. tostring(currentPlaceId) .. "\nGameId: " .. tostring(currentGameId),
         Duration = 10
     })
     return
