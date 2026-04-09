@@ -87,57 +87,47 @@ end
 -- ============================================
 -- FUNGSI: MUAT SCRIPT GAME
 -- ============================================
-local _guiSnapshotCore = {}
-local _guiSnapshotPlayer = {}
+local _authTitle = nil -- will be set when auth window created
+local _authGuiRef = nil -- captured reference to auth ScreenGui
 
-local function snapshotGuis()
-    pcall(function()
-        local coreGui = gethui and gethui() or game:GetService("CoreGui")
-        for _, gui in ipairs(coreGui:GetChildren()) do
-            if gui:IsA("ScreenGui") then _guiSnapshotCore[gui] = true end
-        end
-    end)
-    pcall(function()
-        local playerGui = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
-        if playerGui then
-            for _, gui in ipairs(playerGui:GetChildren()) do
-                if gui:IsA("ScreenGui") then _guiSnapshotPlayer[gui] = true end
-            end
-        end
-    end)
-end
-
-local function destroyNewGuis()
-    pcall(function()
-        local coreGui = gethui and gethui() or game:GetService("CoreGui")
-        for _, gui in ipairs(coreGui:GetChildren()) do
-            if gui:IsA("ScreenGui") and not _guiSnapshotCore[gui] then
-                pcall(function() gui:Destroy() end)
-            end
-        end
-    end)
-    pcall(function()
-        local playerGui = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
-        if playerGui then
-            for _, gui in ipairs(playerGui:GetChildren()) do
-                if gui:IsA("ScreenGui") and not _guiSnapshotPlayer[gui] then
-                    pcall(function() gui:Destroy() end)
+local function findAndDestroyAuthGui()
+    if not _authTitle then return end
+    
+    -- Collect all possible GUI parents
+    local parents = {}
+    pcall(function() table.insert(parents, gethui and gethui() or game:GetService("CoreGui")) end)
+    pcall(function() table.insert(parents, game:GetService("CoreGui")) end)
+    pcall(function() table.insert(parents, game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")) end)
+    
+    for _, parent in ipairs(parents) do
+        if parent then
+            pcall(function()
+                for _, gui in ipairs(parent:GetChildren()) do
+                    if gui:IsA("ScreenGui") then
+                        for _, desc in ipairs(gui:GetDescendants()) do
+                            if desc:IsA("TextLabel") and desc.Text and desc.Text:find(_authTitle) then
+                                gui.Enabled = false
+                                gui:Destroy()
+                                break
+                            end
+                        end
+                    end
                 end
-            end
+            end)
         end
-    end)
+    end
+    
+    -- Also try direct reference
+    if _authGuiRef then
+        pcall(function() _authGuiRef.Enabled = false end)
+        pcall(function() _authGuiRef:Destroy() end)
+    end
 end
 
 local function loadGameScript()
-    VelarisUI:MakeNotify({
-        Title = "NexHub",
-        Content = "Memuat " .. detectedGame.name .. "...",
-        Duration = 3
-    })
-
-    -- Hapus semua UI loader
-    task.wait(1)
-    destroyNewGuis()
+    -- Hapus auth UI DULU sebelum apapun
+    findAndDestroyAuthGui()
+    task.wait(0.5)
 
     -- Eksekusi script game
     task.wait(0.5)
@@ -184,11 +174,11 @@ pcall(function()
     if gethwid then HWID = gethwid() else HWID = Analytics:GetClientId() end
 end)
 
--- Snapshot GUI SEBELUM buat AuthWindow
-snapshotGuis()
+-- Set auth title untuk cleanup nanti
+_authTitle = "NexHub - " .. detectedGame.name
 
 local AuthWindow = VelarisUI:Window({
-    Title = "NexHub - " .. detectedGame.name,
+    Title = _authTitle,
     Footer = ".",
     Color = "Nex",
     Author = "Premium Access Required",
@@ -202,6 +192,30 @@ local AuthWindow = VelarisUI:Window({
     HideSearchBar = true,
     Topbar = {Height = 43, ButtonsType = "Default"},
 })
+
+-- Capture referensi ScreenGui auth window
+task.delay(1, function()
+    local locations = {}
+    pcall(function() table.insert(locations, gethui and gethui() or game:GetService("CoreGui")) end)
+    pcall(function() table.insert(locations, game:GetService("CoreGui")) end)
+    pcall(function() table.insert(locations, game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")) end)
+    for _, parent in ipairs(locations) do
+        if parent and not _authGuiRef then
+            pcall(function()
+                for _, gui in ipairs(parent:GetChildren()) do
+                    if gui:IsA("ScreenGui") and not _authGuiRef then
+                        for _, desc in ipairs(gui:GetDescendants()) do
+                            if desc:IsA("TextLabel") and desc.Text and desc.Text:find(_authTitle) then
+                                _authGuiRef = gui
+                                break
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end
+end)
 
 AuthWindow:Tag({
     Title = "Premium",
