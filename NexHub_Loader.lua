@@ -87,33 +87,41 @@ end
 -- ============================================
 -- FUNGSI: MUAT SCRIPT GAME
 -- ============================================
-local function destroyAllLoaderUI()
-    -- 1) Destroy AuthWindow via VelarisUI API
-    pcall(function() if AuthWindow and AuthWindow.Destroy then AuthWindow:Destroy() end end)
+local _guiSnapshotCore = {}
+local _guiSnapshotPlayer = {}
 
-    -- 2) Scan CoreGui / gethui
+local function snapshotGuis()
     pcall(function()
         local coreGui = gethui and gethui() or game:GetService("CoreGui")
         for _, gui in ipairs(coreGui:GetChildren()) do
-            if gui:IsA("ScreenGui") then
-                local name = gui.Name or ""
-                if name:find("Velaris") or name:find("NexHub") or gui:FindFirstChild("MainFrame") then
-                    gui:Destroy()
-                end
-            end
+            if gui:IsA("ScreenGui") then _guiSnapshotCore[gui] = true end
         end
     end)
-
-    -- 3) Scan PlayerGui
     pcall(function()
         local playerGui = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
         if playerGui then
             for _, gui in ipairs(playerGui:GetChildren()) do
-                if gui:IsA("ScreenGui") then
-                    local name = gui.Name or ""
-                    if name:find("Velaris") or name:find("NexHub") then
-                        gui:Destroy()
-                    end
+                if gui:IsA("ScreenGui") then _guiSnapshotPlayer[gui] = true end
+            end
+        end
+    end)
+end
+
+local function destroyNewGuis()
+    pcall(function()
+        local coreGui = gethui and gethui() or game:GetService("CoreGui")
+        for _, gui in ipairs(coreGui:GetChildren()) do
+            if gui:IsA("ScreenGui") and not _guiSnapshotCore[gui] then
+                pcall(function() gui:Destroy() end)
+            end
+        end
+    end)
+    pcall(function()
+        local playerGui = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
+        if playerGui then
+            for _, gui in ipairs(playerGui:GetChildren()) do
+                if gui:IsA("ScreenGui") and not _guiSnapshotPlayer[gui] then
+                    pcall(function() gui:Destroy() end)
                 end
             end
         end
@@ -129,7 +137,7 @@ local function loadGameScript()
 
     -- Hapus semua UI loader
     task.wait(1)
-    destroyAllLoaderUI()
+    destroyNewGuis()
 
     -- Eksekusi script game
     task.wait(0.5)
@@ -175,6 +183,9 @@ local HWID = "Unknown"
 pcall(function() 
     if gethwid then HWID = gethwid() else HWID = Analytics:GetClientId() end
 end)
+
+-- Snapshot GUI SEBELUM buat AuthWindow
+snapshotGuis()
 
 local AuthWindow = VelarisUI:Window({
     Title = "NexHub - " .. detectedGame.name,
