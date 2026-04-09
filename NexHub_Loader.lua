@@ -190,31 +190,21 @@ local Window = VelarisUI:Window({
                     task.wait(1)
                     -- Destroy loader window (yang kosong)
                     pcall(function() Window:Destroy() end)
+                    -- Destroy toggle button via internal reference
+                    pcall(function() if Window._toggleGui then Window._toggleGui:Destroy() end end)
                     task.wait(0.3)
-                    -- Hapus semua GUI sisa loader (window + toggle button) dari semua container
+                    -- Hapus semua GUI sisa loader (ToggleUIButton + VelarisUI) dari CoreGui
                     pcall(function()
                         local containers = {}
                         pcall(function() table.insert(containers, gethui and gethui() or game:GetService("CoreGui")) end)
                         pcall(function() table.insert(containers, game:GetService("CoreGui")) end)
-                        pcall(function() table.insert(containers, game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")) end)
                         for _, parent in ipairs(containers) do
                             if parent then
                                 for _, gui in ipairs(parent:GetChildren()) do
                                     if gui:IsA("ScreenGui") then
-                                        local shouldDestroy = false
-                                        for _, desc in ipairs(gui:GetDescendants()) do
-                                            -- Cari TextLabel dengan title loader
-                                            if desc:IsA("TextLabel") and desc.Text and desc.Text:find("NexHub") then
-                                                shouldDestroy = true
-                                                break
-                                            end
-                                            -- Cari toggle button icon (ImageLabel/ImageButton dengan asset NexHub)
-                                            if (desc:IsA("ImageLabel") or desc:IsA("ImageButton")) and desc.Image and desc.Image:find("128795866459585") then
-                                                shouldDestroy = true
-                                                break
-                                            end
-                                        end
-                                        if shouldDestroy then
+                                        local name = gui.Name or ""
+                                        -- Hapus ToggleUIButton (icon NX) dan VelarisUI (window utama)
+                                        if name == "ToggleUIButton" or name == "VelarisUI" then
                                             pcall(function() gui.Enabled = false; gui:Destroy() end)
                                         end
                                     end
