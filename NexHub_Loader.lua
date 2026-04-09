@@ -190,7 +190,8 @@ local Window = VelarisUI:Window({
                     task.wait(1)
                     -- Destroy loader window (yang kosong)
                     pcall(function() Window:Destroy() end)
-                    -- Hapus semua GUI sisa loader dari semua container
+                    task.wait(0.3)
+                    -- Hapus semua GUI sisa loader (window + toggle button) dari semua container
                     pcall(function()
                         local containers = {}
                         pcall(function() table.insert(containers, gethui and gethui() or game:GetService("CoreGui")) end)
@@ -200,14 +201,20 @@ local Window = VelarisUI:Window({
                             if parent then
                                 for _, gui in ipairs(parent:GetChildren()) do
                                     if gui:IsA("ScreenGui") then
-                                        local isLoader = false
+                                        local shouldDestroy = false
                                         for _, desc in ipairs(gui:GetDescendants()) do
-                                            if desc:IsA("TextLabel") and desc.Text and desc.Text:find("NexHub") and desc.Text:find(detectedGame.name) then
-                                                isLoader = true
+                                            -- Cari TextLabel dengan title loader
+                                            if desc:IsA("TextLabel") and desc.Text and desc.Text:find("NexHub") then
+                                                shouldDestroy = true
+                                                break
+                                            end
+                                            -- Cari toggle button icon (ImageLabel/ImageButton dengan asset NexHub)
+                                            if (desc:IsA("ImageLabel") or desc:IsA("ImageButton")) and desc.Image and desc.Image:find("128795866459585") then
+                                                shouldDestroy = true
                                                 break
                                             end
                                         end
-                                        if isLoader then
+                                        if shouldDestroy then
                                             pcall(function() gui.Enabled = false; gui:Destroy() end)
                                         end
                                     end
