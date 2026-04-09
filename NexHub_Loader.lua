@@ -87,49 +87,7 @@ end
 -- ============================================
 -- FUNGSI: MUAT SCRIPT GAME
 -- ============================================
-local _authTitle = nil -- will be set when auth window created
-local _authGuiRef = nil -- captured reference to auth ScreenGui
-
-local function findAndDestroyAuthGui()
-    if not _authTitle then return end
-    
-    -- Collect all possible GUI parents
-    local parents = {}
-    pcall(function() table.insert(parents, gethui and gethui() or game:GetService("CoreGui")) end)
-    pcall(function() table.insert(parents, game:GetService("CoreGui")) end)
-    pcall(function() table.insert(parents, game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")) end)
-    
-    for _, parent in ipairs(parents) do
-        if parent then
-            pcall(function()
-                for _, gui in ipairs(parent:GetChildren()) do
-                    if gui:IsA("ScreenGui") then
-                        for _, desc in ipairs(gui:GetDescendants()) do
-                            if desc:IsA("TextLabel") and desc.Text and desc.Text:find(_authTitle) then
-                                gui.Enabled = false
-                                gui:Destroy()
-                                break
-                            end
-                        end
-                    end
-                end
-            end)
-        end
-    end
-    
-    -- Also try direct reference
-    if _authGuiRef then
-        pcall(function() _authGuiRef.Enabled = false end)
-        pcall(function() _authGuiRef:Destroy() end)
-    end
-end
-
 local function loadGameScript()
-    -- Hapus auth UI DULU sebelum apapun
-    findAndDestroyAuthGui()
-    task.wait(0.5)
-
-    -- Eksekusi script game
     task.wait(0.5)
     local success, err = pcall(function()
         loadstring(game:HttpGet(detectedGame.scriptUrl))()
@@ -141,11 +99,6 @@ local function loadGameScript()
             errMsg = "File tidak ditemukan di GitHub! Cek URL: " .. detectedGame.scriptUrl
         end
         warn("NexHub Loader Error: " .. errMsg)
-        VelarisUI:MakeNotify({
-            Title = "NexHub Error",
-            Content = errMsg,
-            Duration = 10
-        })
     end
 end
 
@@ -164,86 +117,47 @@ if detectedGame.type == "free" then
 end
 
 -- ============================================
--- JALUR PREMIUM: VERIFIKASI KEY DULU
+-- JALUR PREMIUM: KEY SYSTEM BAWAAN VELARISUI
 -- ============================================
 local Analytics = game:GetService("RbxAnalyticsService")
-
-_G.Authenticated = false
 local HWID = "Unknown"
 pcall(function() 
     if gethwid then HWID = gethwid() else HWID = Analytics:GetClientId() end
 end)
 
--- Set auth title untuk cleanup nanti
-_authTitle = "NexHub - " .. detectedGame.name
-
-local AuthWindow = VelarisUI:Window({
-    Title = _authTitle,
+local Window = VelarisUI:Window({
+    Title = "NexHub - " .. detectedGame.name,
     Footer = ".",
     Color = "Nex",
-    Author = "Premium Access Required",
+    Author = "developed by Nex",
     Folder = "NexHub-Auth",
     Icon = "rbxassetid://128795866459585",
     Size = UDim2.fromOffset(450, 280),
     Uitransparent = 0.35,
     NewElements = true,
-    ToggleKey = Enum.KeyCode.LeftAlt,
-    User = {Enabled = true, Anonymous = true},
+    Keybind = Enum.KeyCode.LeftAlt,
+    ShowUser = true,
     HideSearchBar = true,
-    Topbar = {Height = 43, ButtonsType = "Default"},
-})
 
--- Capture referensi ScreenGui auth window
-task.delay(1, function()
-    local locations = {}
-    pcall(function() table.insert(locations, gethui and gethui() or game:GetService("CoreGui")) end)
-    pcall(function() table.insert(locations, game:GetService("CoreGui")) end)
-    pcall(function() table.insert(locations, game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")) end)
-    for _, parent in ipairs(locations) do
-        if parent and not _authGuiRef then
-            pcall(function()
-                for _, gui in ipairs(parent:GetChildren()) do
-                    if gui:IsA("ScreenGui") and not _authGuiRef then
-                        for _, desc in ipairs(gui:GetDescendants()) do
-                            if desc:IsA("TextLabel") and desc.Text and desc.Text:find(_authTitle) then
-                                _authGuiRef = gui
-                                break
-                            end
-                        end
-                    end
-                end
-            end)
-        end
-    end
-end)
+    -- KEY SYSTEM BAWAAN VELARISUI
+    KeySystem = {
+        Title = "NexHub - Authentication",
+        Icon = "lucide:key",
+        Placeholder = "Masukkan Kunci NexHub",
+        Default = "",
+        DiscordText = "Bergabung ke Discord",
+        DiscordUrl = "https://discord.gg/nexhub",
+        Links = {
+            { Name = "Dapatkan Kunci", Icon = "lucide:link", Url = "https://discord.gg/nexhub" },
+        },
+        Steps = {
+            "Selamat Datang di NexHub!",
+            "Game: " .. detectedGame.name .. " (Premium)",
+            "Masukkan kunci eksklusif dari Discord untuk melanjutkan.",
+        },
+        Callback = function(keyInput)
+            local isValid = false
 
-AuthWindow:Tag({
-    Title = "Premium",
-    Color = Color3.fromRGB(68, 48, 221),
-    TextColor = Color3.fromRGB(255, 255, 255),
-})
-
-local AuthTab = AuthWindow:AddTab({Name = "Key System", Title = "Key System", Border = true})
-local AuthSection = AuthTab:AddSection({Title = "Verifikasi Kunci"})
-
-local keyInput = ""
-
-AuthSection:AddParagraph({
-    Title = "Game Terdeteksi",
-    Desc = detectedGame.name .. " (Premium)\nMasukkan kunci NexHub untuk melanjutkan."
-})
-
-AuthSection:AddInput({
-    Title = "Masukkan Kunci",
-    Placeholder = "NEXHUB-XXXX-XXXX",
-    Callback = function(v) keyInput = v end
-})
-
-AuthSection:AddButton({
-    Title = "Verifikasi Kunci",
-    Callback = function()
-        VelarisUI:MakeNotify({Title = "Status", Content = "Menghubungi Server NexHub...", Duration = 2})
-        task.spawn(function()
             local success, response = pcall(function()
                 local httpReq = (syn and syn.request) or request or http_request or (fluxus and fluxus.request)
                 if httpReq then
@@ -265,29 +179,20 @@ AuthSection:AddButton({
 
             if success and response then
                 if response.success then
-                    VelarisUI:MakeNotify({Title = "Berhasil", Content = response.message or "Kunci Valid! Membuka script...", Duration = 3})
-                    _G.Authenticated = true
-                else
-                    VelarisUI:MakeNotify({Title = "Ditolak", Content = response.message or "Kunci tidak valid.", Duration = 3})
+                    isValid = true
                 end
-            else
-                VelarisUI:MakeNotify({Title = "Error", Content = "Server Offline / Diblokir Executor.", Duration = 3})
             end
-        end)
-    end
-})
 
-AuthSection:AddButton({
-    Title = "Dapatkan Kunci",
-    Callback = function()
-        pcall(function() setclipboard("https://discord.gg/nexhub") end)
-        VelarisUI:MakeNotify({Title = "Info", Content = "Link Discord disalin ke clipboard!", Duration = 3})
-    end
-})
+            -- Jika valid, VelarisUI otomatis hilangkan key screen dan buka window
+            -- Kita load script game setelahnya
+            if isValid then
+                task.spawn(function()
+                    task.wait(1)
+                    loadGameScript()
+                end)
+            end
 
--- Tunggu sampai kunci valid, lalu muat skrip game
-task.spawn(function()
-    repeat task.wait(0.5) until _G.Authenticated
-    task.wait(1)
-    loadGameScript()
-end)
+            return isValid
+        end,
+    }
+})
