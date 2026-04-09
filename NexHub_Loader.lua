@@ -184,10 +184,38 @@ local Window = VelarisUI:Window({
             end
 
             -- Jika valid, VelarisUI otomatis hilangkan key screen dan buka window
-            -- Kita load script game setelahnya
+            -- Kita destroy window loader lalu load script game
             if isValid then
                 task.spawn(function()
                     task.wait(1)
+                    -- Destroy loader window (yang kosong)
+                    pcall(function() Window:Destroy() end)
+                    -- Hapus semua GUI sisa loader dari semua container
+                    pcall(function()
+                        local containers = {}
+                        pcall(function() table.insert(containers, gethui and gethui() or game:GetService("CoreGui")) end)
+                        pcall(function() table.insert(containers, game:GetService("CoreGui")) end)
+                        pcall(function() table.insert(containers, game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")) end)
+                        for _, parent in ipairs(containers) do
+                            if parent then
+                                for _, gui in ipairs(parent:GetChildren()) do
+                                    if gui:IsA("ScreenGui") then
+                                        local isLoader = false
+                                        for _, desc in ipairs(gui:GetDescendants()) do
+                                            if desc:IsA("TextLabel") and desc.Text and desc.Text:find("NexHub") and desc.Text:find(detectedGame.name) then
+                                                isLoader = true
+                                                break
+                                            end
+                                        end
+                                        if isLoader then
+                                            pcall(function() gui.Enabled = false; gui:Destroy() end)
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end)
+                    task.wait(0.5)
                     loadGameScript()
                 end)
             end
