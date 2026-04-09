@@ -43,14 +43,14 @@ local currentGameId = game.GameId
 -- Daftar game yang didukung
 local GameList = {
     -- FREE GAMES
-    { name = "FishZar", placeIds = {121442629947656}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubFishZar_Velaris.lua" },
-    { name = "Fish God", placeIds = {121500015379301}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubFishGod_Velaris.lua" },
-    { name = "Survive The Apocalypse", placeIds = {90148635862803}, gameIds = {9098570654}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSurviveTheApocalypse_Velaris.lua" },
+    { name = "FishZar", placeIds = {121442629947656}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubFishZar.lua" },
+    { name = "Fish God", placeIds = {121500015379301}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubFishGod.lua" },
+    { name = "Survive The Apocalypse", placeIds = {90148635862803}, gameIds = {9098570654}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSurviveTheApocalypse.lua" },
 
     -- PREMIUM GAMES (Butuh Key)
-    { name = "Blox Fruits", placeIds = {2753915549, 4442272183, 7449423635}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/BloxFruits_Velaris.lua" },
-    { name = "Violence District", placeIds = {93978595733734}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubVD_Velaris.lua" },
-    { name = "Sailor Piece", placeIds = {77747658251236}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSailorPiece_Velaris.lua" },
+    { name = "Blox Fruits", placeIds = {2753915549, 4442272183, 7449423635}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/BloxFruitsLuxv'SHubXNex_protected.lua" },
+    { name = "Violence District", placeIds = {93978595733734}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubVD.lua" },
+    { name = "Sailor Piece", placeIds = {77747658251236}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSailorPiece.lua" },
 }
 
 -- ============================================
@@ -87,6 +87,39 @@ end
 -- ============================================
 -- FUNGSI: MUAT SCRIPT GAME
 -- ============================================
+local function destroyAllLoaderUI()
+    -- 1) Destroy AuthWindow via VelarisUI API
+    pcall(function() if AuthWindow and AuthWindow.Destroy then AuthWindow:Destroy() end end)
+
+    -- 2) Scan CoreGui / gethui
+    pcall(function()
+        local coreGui = gethui and gethui() or game:GetService("CoreGui")
+        for _, gui in ipairs(coreGui:GetChildren()) do
+            if gui:IsA("ScreenGui") then
+                local name = gui.Name or ""
+                if name:find("Velaris") or name:find("NexHub") or gui:FindFirstChild("MainFrame") then
+                    gui:Destroy()
+                end
+            end
+        end
+    end)
+
+    -- 3) Scan PlayerGui
+    pcall(function()
+        local playerGui = game:GetService("Players").LocalPlayer:FindFirstChild("PlayerGui")
+        if playerGui then
+            for _, gui in ipairs(playerGui:GetChildren()) do
+                if gui:IsA("ScreenGui") then
+                    local name = gui.Name or ""
+                    if name:find("Velaris") or name:find("NexHub") then
+                        gui:Destroy()
+                    end
+                end
+            end
+        end
+    end)
+end
+
 local function loadGameScript()
     VelarisUI:MakeNotify({
         Title = "NexHub",
@@ -96,12 +129,7 @@ local function loadGameScript()
 
     -- Hapus semua UI loader
     task.wait(1)
-    local targetGui = gethui and gethui() or game:GetService("CoreGui")
-    for _, gui in ipairs(targetGui:GetChildren()) do
-        if gui:IsA("ScreenGui") and (gui.Name:find("Velaris") or gui:FindFirstChild("MainFrame")) then
-            gui:Destroy()
-        end
-    end
+    destroyAllLoaderUI()
 
     -- Eksekusi script game
     task.wait(0.5)
@@ -110,7 +138,16 @@ local function loadGameScript()
     end)
 
     if not success then
-        warn("NexHub Loader Error: " .. tostring(err))
+        local errMsg = tostring(err)
+        if errMsg:find("404") then
+            errMsg = "File tidak ditemukan di GitHub! Cek URL: " .. detectedGame.scriptUrl
+        end
+        warn("NexHub Loader Error: " .. errMsg)
+        VelarisUI:MakeNotify({
+            Title = "NexHub Error",
+            Content = errMsg,
+            Duration = 10
+        })
     end
 end
 
