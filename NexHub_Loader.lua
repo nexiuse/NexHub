@@ -48,7 +48,7 @@ local GameList = {
     { name = "Survive The Apocalypse", placeIds = {90148635862803}, gameIds = {9098570654}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSurviveTheApocalypse.lua" },
 
     -- PREMIUM GAMES (Butuh Key)
-    { name = "Blox Fruits", placeIds = {2753915549, 4442272183, 7449423635}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/BloxFruitsLuxv'SHubXNex_protected.lua" },
+    { name = "Blox Fruits", placeIds = {2753915549, 4442272183, 7449423635}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/BloxFruitsLuxv%27SHubXNex_protected.lua" },
     { name = "Violence District", placeIds = {93978595733734}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubVD.lua" },
     { name = "Sailor Piece", placeIds = {77747658251236}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSailorPiece.lua" },
 }
@@ -131,7 +131,8 @@ local Window = VelarisUI:Window({
     Color = "Nex",
     Author = "developed by Nex",
     Folder = "NexHub-Auth",
-    Icon = "rbxassetid://128795866459585",
+    Icon = "rbxassetid://82006436469351",
+    Image = "82006436469351",
     Size = UDim2.fromOffset(450, 280),
     Uitransparent = 0.35,
     NewElements = true,
