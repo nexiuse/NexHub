@@ -5,7 +5,7 @@
 local VelarisUI
 do
     local ok, result = pcall(function()
-        return loadstring(game:HttpGet("https://raw.githubusercontent.com/nhfudzfsrzggt/brigida/refs/heads/main/dist/main.lua", true))()
+        return loadstring(game:HttpGet("https://raw.githubusercontent.com/nexiuse/NexHub_UI/refs/heads/main/NexHub_CustomUI.lua", true))()
     end)
     VelarisUI = ok and result or nil
 end
