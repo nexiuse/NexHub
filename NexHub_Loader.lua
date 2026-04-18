@@ -1,226 +1,30 @@
--- ============================================
--- NEXHUB UNIVERSAL LOADER v2.0 (VELARIS UI)
--- Satu Script Untuk Semua Game
--- ============================================
-local VelarisUI
-do
-    local ok, result = pcall(function()
-        return loadstring(game:HttpGet("https://raw.githubusercontent.com/nexiuse/NexHub_UI/refs/heads/main/NexHub_CustomUI.lua", true))()
-    end)
-    VelarisUI = ok and result or nil
-end
-
-if not VelarisUI then
-    warn("Gagal merender VelarisUI.")
-    return
-end
-
--- ============================================
--- THEME
--- ============================================
-pcall(function()
-    VelarisUI:AddTheme({
-        Name = "Nex",
-        Icon = Color3.fromHex("#ffffff"),
-        Accent = Color3.fromHex("#14ADC7"),
-        Dialog = Color3.fromHex("#ffffff"),
-        Outline = Color3.fromHex("#0074D9"),
-        Text = Color3.fromHex("#f8fafc"),
-        Placeholder = Color3.fromHex("#94a3b8"),
-        Button = Color3.fromHex("#1c1c1c"),
-        WindowBackground = Color3.fromHex("#0f0f0f")
-    })
+-- NexHub Encoded Loader (Loader)
+local b64 = "LS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0gTkVYSFVCIFVOSVZFUlNBTCBMT0FERVIgdjIuMCAoVkVMQVJJUyBVSSkKLS0gU2F0dSBTY3JpcHQgVW50dWsgU2VtdWEgR2FtZQotLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpsb2NhbCBWZWxhcmlzVUkKZG8KICAgIGxvY2FsIG9rLCByZXN1bHQgPSBwY2FsbChmdW5jdGlvbigpCiAgICAgICAgcmV0dXJuIGxvYWRzdHJpbmcoZ2FtZTpIdHRwR2V0KCJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vbmV4aXVzZS9OZXhIdWJfVUkvcmVmcy9oZWFkcy9tYWluL05leEh1Yl9DdXN0b21VSS5sdWEiLCB0cnVlKSkoKQogICAgZW5kKQogICAgVmVsYXJpc1VJID0gb2sgYW5kIHJlc3VsdCBvciBuaWwKZW5kCgppZiBub3QgVmVsYXJpc1VJIHRoZW4KICAgIHdhcm4oIkdhZ2FsIG1lcmVuZGVyIFZlbGFyaXNVSS4iKQogICAgcmV0dXJuCmVuZAoKLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0gVEhFTUUKLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KcGNhbGwoZnVuY3Rpb24oKQogICAgVmVsYXJpc1VJOkFkZFRoZW1lKHsKICAgICAgICBOYW1lID0gIk5leCIsCiAgICAgICAgSWNvbiA9IENvbG9yMy5mcm9tSGV4KCIjZmZmZmZmIiksCiAgICAgICAgQWNjZW50ID0gQ29sb3IzLmZyb21IZXgoIiMxNEFEQzciKSwKICAgICAgICBEaWFsb2cgPSBDb2xvcjMuZnJvbUhleCgiI2ZmZmZmZiIpLAogICAgICAgIE91dGxpbmUgPSBDb2xvcjMuZnJvbUhleCgiIzAwNzREOSIpLAogICAgICAgIFRleHQgPSBDb2xvcjMuZnJvbUhleCgiI2Y4ZmFmYyIpLAogICAgICAgIFBsYWNlaG9sZGVyID0gQ29sb3IzLmZyb21IZXgoIiM5NGEzYjgiKSwKICAgICAgICBCdXR0b24gPSBDb2xvcjMuZnJvbUhleCgiIzFjMWMxYyIpLAogICAgICAgIFdpbmRvd0JhY2tncm91bmQgPSBDb2xvcjMuZnJvbUhleCgiIzBmMGYwZiIpCiAgICB9KQplbmQpCgotLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLSBLT05GSUdVUkFTSSBHQU1FICYgQVBJCi0tID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CmxvY2FsIEFQSV9VUkwgPSAiaHR0cHM6Ly9uZXhodWJzZXItYXBpLXByb2R1Y3Rpb24udXAucmFpbHdheS5hcHAvYXBpL3ZlcmlmeSIKbG9jYWwgSHR0cFNlcnZpY2UgPSBnYW1lOkdldFNlcnZpY2UoIkh0dHBTZXJ2aWNlIikKbG9jYWwgY3VycmVudFBsYWNlSWQgPSBnYW1lLlBsYWNlSWQKbG9jYWwgY3VycmVudEdhbWVJZCA9IGdhbWUuR2FtZUlkCgotLSBEYWZ0YXIgZ2FtZSB5YW5nIGRpZHVrdW5nCmxvY2FsIEdhbWVMaXN0ID0gewogICAgLS0gRlJFRSBHQU1FUwogICAgeyBuYW1lID0gIkZpc2haYXIiLCBwbGFjZUlkcyA9IHsxMjE0NDI2Mjk5NDc2NTZ9LCB0eXBlID0gImZyZWUiLCBzY3JpcHRVcmwgPSAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL25leGl1c2UvTmV4SHViL21haW4vTmV4SHViRmlzaFphci5sdWEiIH0sCiAgICB7IG5hbWUgPSAiRmlzaCBHb2QiLCBwbGFjZUlkcyA9IHsxMjE1MDAwMTUzNzkzMDF9LCB0eXBlID0gImZyZWUiLCBzY3JpcHRVcmwgPSAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL25leGl1c2UvTmV4SHViL21haW4vTmV4SHViRmlzaEdvZC5sdWEiIH0sCiAgICB7IG5hbWUgPSAiU3Vydml2ZSBUaGUgQXBvY2FseXBzZSIsIHBsYWNlSWRzID0gezkwMTQ4NjM1ODYyODAzfSwgZ2FtZUlkcyA9IHs5MDk4NTcwNjU0fSwgdHlwZSA9ICJmcmVlIiwgc2NyaXB0VXJsID0gImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9uZXhpdXNlL05leEh1Yi9yZWZzL2hlYWRzL21haW4vTmV4SHViU3Vydml2ZVRoZUFwb2NhbHlwc2UubHVhIiB9LAogICAgeyBuYW1lID0gIlN0ZWFsIEEgQnJhaW5yb3RzIiwgZ2FtZUlkcyA9IHs3NzA5MzQ0NDg2fSwgdHlwZSA9ICJmcmVlIiwgc2NyaXB0VXJsID0gImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9uZXhpdXNlL05leEh1Yi9yZWZzL2hlYWRzL21haW4vTmV4SHViU0FCLmx1YSIgfSwKCiAgICAtLSBQUkVNSVVNIEdBTUVTIChCdXR1aCBLZXkpCiAgICB7IG5hbWUgPSAiQmxveCBGcnVpdHMiLCBwbGFjZUlkcyA9IHsyNzUzOTE1NTQ5LCA0NDQyMjcyMTgzLCA3NDQ5NDIzNjM1fSwgdHlwZSA9ICJwcmVtaXVtIiwgc2NyaXB0VXJsID0gImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9uZXhpdXNlL05leEh1Yi9yZWZzL2hlYWRzL21haW4vQmxveEZydWl0c0x1eHYlMjdTSHViWE5leF9wcm90ZWN0ZWQubHVhIiB9LAogICAgeyBuYW1lID0gIlZpb2xlbmNlIERpc3RyaWN0IiwgcGxhY2VJZHMgPSB7OTM5Nzg1OTU3MzM3MzR9LCB0eXBlID0gInByZW1pdW0iLCBzY3JpcHRVcmwgPSAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL25leGl1c2UvTmV4SHViL21haW4vTmV4SHViVkQubHVhIiB9LAogICAgeyBuYW1lID0gIlNhaWxvciBQaWVjZSIsIHBsYWNlSWRzID0gezc3NzQ3NjU4MjUxMjM2fSwgZ2FtZUlkcyA9IHs5MTg2NzE5MTY0fSwgdHlwZSA9ICJwcmVtaXVtIiwgc2NyaXB0VXJsID0gImh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9uZXhpdXNlL05leEh1Yi9yZWZzL2hlYWRzL21haW4vTmV4SHViU2FpbG9yUGllY2UubHVhIiB9LAogICAgeyBuYW1lID0gIkJpdGUgQnkgTmlnaHQiLCBnYW1lSWRzID0gezgyMDIyODA2MjR9LCB0eXBlID0gInByZW1pdW0iLCBzY3JpcHRVcmwgPSAiaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL25leGl1c2UvTmV4SHViL3JlZnMvaGVhZHMvbWFpbi9OZXhIdWJCaXRlQnlOaWdodC5sdWEiIH0sCn0KCi0tID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tIERFVEVLU0kgR0FNRSBPVE9NQVRJUwotLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpsb2NhbCBkZXRlY3RlZEdhbWUgPSBuaWwKCmZvciBfLCBnYW1lSW5mbyBpbiBpcGFpcnMoR2FtZUxpc3QpIGRvCiAgICBpZiBnYW1lSW5mby5wbGFjZUlkcyB0aGVuCiAgICAgICAgZm9yIF8sIHBpZCBpbiBpcGFpcnMoZ2FtZUluZm8ucGxhY2VJZHMpIGRvCiAgICAgICAgICAgIGlmIGN1cnJlbnRQbGFjZUlkID09IHBpZCB0aGVuIGRldGVjdGVkR2FtZSA9IGdhbWVJbmZvIGJyZWFrIGVuZAogICAgICAgIGVuZAogICAgZW5kCiAgICBpZiBub3QgZGV0ZWN0ZWRHYW1lIGFuZCBnYW1lSW5mby5nYW1lSWRzIHRoZW4KICAgICAgICBmb3IgXywgZ2lkIGluIGlwYWlycyhnYW1lSW5mby5nYW1lSWRzKSBkbwogICAgICAgICAgICBpZiBjdXJyZW50R2FtZUlkID09IGdpZCB0aGVuIGRldGVjdGVkR2FtZSA9IGdhbWVJbmZvIGJyZWFrIGVuZAogICAgICAgIGVuZAogICAgZW5kCiAgICBpZiBkZXRlY3RlZEdhbWUgdGhlbiBicmVhayBlbmQKZW5kCgotLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLSBHQU1FIFRJREFLIERJS0VOQUxJCi0tID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CmlmIG5vdCBkZXRlY3RlZEdhbWUgdGhlbgogICAgVmVsYXJpc1VJOk1ha2VOb3RpZnkoewogICAgICAgIFRpdGxlID0gIk5leEh1YiBMb2FkZXIiLAogICAgICAgIENvbnRlbnQgPSAiR2FtZSB0aWRhayBkaWtlbmFsaS5cblBsYWNlSWQ6ICIgLi4gdG9zdHJpbmcoY3VycmVudFBsYWNlSWQpIC4uICJcbkdhbWVJZDogIiAuLiB0b3N0cmluZyhjdXJyZW50R2FtZUlkKSwKICAgICAgICBEdXJhdGlvbiA9IDEwCiAgICB9KQogICAgcmV0dXJuCmVuZAoKLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0gRlVOR1NJOiBNVUFUIFNDUklQVCBHQU1FCi0tID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CmxvY2FsIGZ1bmN0aW9uIGxvYWRHYW1lU2NyaXB0KCkKICAgIHRhc2sud2FpdCgwLjUpCiAgICBsb2NhbCBzdWNjZXNzLCBlcnIgPSBwY2FsbChmdW5jdGlvbigpCiAgICAgICAgbG9hZHN0cmluZyhnYW1lOkh0dHBHZXQoZGV0ZWN0ZWRHYW1lLnNjcmlwdFVybCkpKCkKICAgIGVuZCkKCiAgICBpZiBub3Qgc3VjY2VzcyB0aGVuCiAgICAgICAgbG9jYWwgZXJyTXNnID0gdG9zdHJpbmcoZXJyKQogICAgICAgIGlmIGVyck1zZzpmaW5kKCI0MDQiKSB0aGVuCiAgICAgICAgICAgIGVyck1zZyA9ICJGaWxlIHRpZGFrIGRpdGVtdWthbiBkaSBHaXRIdWIhIENlayBVUkw6ICIgLi4gZGV0ZWN0ZWRHYW1lLnNjcmlwdFVybAogICAgICAgIGVuZAogICAgICAgIHdhcm4oIk5leEh1YiBMb2FkZXIgRXJyb3I6ICIgLi4gZXJyTXNnKQogICAgZW5kCmVuZAoKLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0gSkFMVVIgRlJFRTogTEFOR1NVTkcgTVVBVAotLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQppZiBkZXRlY3RlZEdhbWUudHlwZSA9PSAiZnJlZSIgdGhlbgogICAgVmVsYXJpc1VJOk1ha2VOb3RpZnkoewogICAgICAgIFRpdGxlID0gIk5leEh1YiAtIEZyZWUgQWNjZXNzIiwKICAgICAgICBDb250ZW50ID0gIkdhbWU6ICIgLi4gZGV0ZWN0ZWRHYW1lLm5hbWUgLi4gIiAoR3JhdGlzKS4gTWVtdWF0IG90b21hdGlzLi4uIiwKICAgICAgICBEdXJhdGlvbiA9IDMKICAgIH0pCiAgICB0YXNrLndhaXQoMSkKICAgIGxvYWRHYW1lU2NyaXB0KCkKICAgIHJldHVybgplbmQKLS0gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0gSkFMVVIgUFJFTUlVTTogS0VZIFNZU1RFTSBCQVdBQU4gTkVYSFVCIFVJCi0tIEtleSBzeXN0ZW0gc2VrYXJhbmcgYmxvY2tpbmcgZGkgTmV4SHViX0N1c3RvbVVJLmx1YQotLSBXaW5kb3coKSBha2FuIHlpZWxkIHNhbXBhaSBrZXkgdmFsaWQsIGJhcnUgcmV0dXJuIFRhYnMuCi0tID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CmxvY2FsIEFuYWx5dGljcyA9IGdhbWU6R2V0U2VydmljZSgiUmJ4QW5hbHl0aWNzU2VydmljZSIpCmxvY2FsIEhXSUQgPSAiVW5rbm93biIKcGNhbGwoZnVuY3Rpb24oKSAKICAgIGlmIGdldGh3aWQgdGhlbiBIV0lEID0gZ2V0aHdpZCgpIGVsc2UgSFdJRCA9IEFuYWx5dGljczpHZXRDbGllbnRJZCgpIGVuZAplbmQpCgpsb2NhbCBXaW5kb3cgPSBWZWxhcmlzVUk6V2luZG93KHsKICAgIFRpdGxlID0gIk5leEh1YiAtICIgLi4gZGV0ZWN0ZWRHYW1lLm5hbWUsCiAgICBGb290ZXIgPSAiLiIsCiAgICBDb2xvciA9ICJOZXgiLAogICAgQXV0aG9yID0gImRldmVsb3BlZCBieSBOZXgiLAogICAgRm9sZGVyID0gIk5leEh1Yi1BdXRoIiwKICAgIEljb24gPSAicmJ4YXNzZXRpZDovLzgyMDA2NDM2NDY5MzUxIiwKICAgIEltYWdlID0gIjgyMDA2NDM2NDY5MzUxIiwKICAgIFNpemUgPSBVRGltMi5mcm9tT2Zmc2V0KDQ1MCwgMjgwKSwKICAgIFVpdHJhbnNwYXJlbnQgPSAwLjM1LAogICAgTmV3RWxlbWVudHMgPSB0cnVlLAogICAgS2V5YmluZCA9IEVudW0uS2V5Q29kZS5MZWZ0QWx0LAogICAgU2hvd1VzZXIgPSB0cnVlLAogICAgSGlkZVNlYXJjaEJhciA9IHRydWUsCgogICAgLS0gS0VZIFNZU1RFTSAoQmxvY2tpbmcgLSBoYW5kbGVkIGJ5IE5leEh1Yl9DdXN0b21VSS5sdWEpCiAgICBLZXlTeXN0ZW0gPSB7CiAgICAgICAgVGl0bGUgPSAiTmV4SHViIC0gQXV0aGVudGljYXRpb24iLAogICAgICAgIEljb24gPSAibHVjaWRlOmtleSIsCiAgICAgICAgUGxhY2Vob2xkZXIgPSAiTWFzdWtrYW4gS3VuY2kgTmV4SHViIiwKICAgICAgICBEZWZhdWx0ID0gIiIsCiAgICAgICAgRGlzY29yZFRleHQgPSAiQmVyZ2FidW5nIGtlIERpc2NvcmQiLAogICAgICAgIERpc2NvcmRVcmwgPSAiaHR0cHM6Ly9kaXNjb3JkLmdnL25leGh1YiIsCiAgICAgICAgTGlua3MgPSB7CiAgICAgICAgICAgIHsgTmFtZSA9ICJEYXBhdGthbiBLdW5jaSIsIEljb24gPSAibHVjaWRlOmxpbmsiLCBVcmwgPSAiaHR0cHM6Ly9kaXNjb3JkLmdnL25leGh1YiIgfSwKICAgICAgICB9LAogICAgICAgIFN0ZXBzID0gewogICAgICAgICAgICAiU2VsYW1hdCBEYXRhbmcgZGkgTmV4SHViISIsCiAgICAgICAgICAgICJHYW1lOiAiIC4uIGRldGVjdGVkR2FtZS5uYW1lIC4uICIgKFByZW1pdW0pIiwKICAgICAgICAgICAgIk1hc3Vra2FuIGt1bmNpIGVrc2tsdXNpZiBkYXJpIERpc2NvcmQgdW50dWsgbWVsYW5qdXRrYW4uIiwKICAgICAgICB9LAogICAgICAgIENhbGxiYWNrID0gZnVuY3Rpb24oa2V5SW5wdXQpCiAgICAgICAgICAgIC0tIERldiBieXBhc3MKICAgICAgICAgICAgaWYga2V5SW5wdXQgPT0gIk5FWEhVQl9ERVYiIHRoZW4KICAgICAgICAgICAgICAgIFZlbGFyaXNVSTpNYWtlTm90aWZ5KHsgVGl0bGUgPSAiU3lzdGVtIiwgQ29udGVudCA9ICJEZXZlbG9wZXIgQnlwYXNzIFBhc3NlZCEiLCBEdXJhdGlvbiA9IDMgfSkKICAgICAgICAgICAgICAgIHJldHVybiB0cnVlCiAgICAgICAgICAgIGVuZAoKICAgICAgICAgICAgLS0gQVBJIHZlcmlmaWNhdGlvbgogICAgICAgICAgICBsb2NhbCBzdWNjZXNzLCByZXNwb25zZSA9IHBjYWxsKGZ1bmN0aW9uKCkKICAgICAgICAgICAgICAgIGxvY2FsIGh0dHBSZXEgPSAoc3luIGFuZCBzeW4ucmVxdWVzdCkgb3IgcmVxdWVzdCBvciBodHRwX3JlcXVlc3Qgb3IgKGZsdXh1cyBhbmQgZmx1eHVzLnJlcXVlc3QpCiAgICAgICAgICAgICAgICBpZiBodHRwUmVxIHRoZW4KICAgICAgICAgICAgICAgICAgICBsb2NhbCByZXMgPSBodHRwUmVxKHsKICAgICAgICAgICAgICAgICAgICAgICAgVXJsID0gQVBJX1VSTCwKICAgICAgICAgICAgICAgICAgICAgICAgTWV0aG9kID0gIlBPU1QiLAogICAgICAgICAgICAgICAgICAgICAgICBIZWFkZXJzID0geyBbIkNvbnRlbnQtVHlwZSJdID0gImFwcGxpY2F0aW9uL2pzb24iIH0sCiAgICAgICAgICAgICAgICAgICAgICAgIEJvZHkgPSBIdHRwU2VydmljZTpKU09ORW5jb2RlKHsgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBrZXkgPSBrZXlJbnB1dCwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBod2lkID0gSFdJRCwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICB1c2VyaWQgPSB0b3N0cmluZyhnYW1lOkdldFNlcnZpY2UoIlBsYXllcnMiKS5Mb2NhbFBsYXllci5Vc2VySWQpIAogICAgICAgICAgICAgICAgICAgICAgICB9KQogICAgICAgICAgICAgICAgICAgIH0pCiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIEh0dHBTZXJ2aWNlOkpTT05EZWNvZGUocmVzLkJvZHkpCiAgICAgICAgICAgICAgICBlbHNlCiAgICAgICAgICAgICAgICAgICAgZXJyb3IoIkV4ZWN1dG9yIHRpZGFrIG1lbmR1a3VuZyBIVFRQIFJlcXVlc3QiKQogICAgICAgICAgICAgICAgZW5kCiAgICAgICAgICAgIGVuZCkKCiAgICAgICAgICAgIGlmIHN1Y2Nlc3MgYW5kIHJlc3BvbnNlIGFuZCByZXNwb25zZS5zdWNjZXNzIHRoZW4KICAgICAgICAgICAgICAgIHJldHVybiB0cnVlCiAgICAgICAgICAgIGVsc2UKICAgICAgICAgICAgICAgIGxvY2FsIGVyck1zZyA9ICJJbnZhbGlkIEtleSEiCiAgICAgICAgICAgICAgICBpZiBzdWNjZXNzIGFuZCByZXNwb25zZSB0aGVuCiAgICAgICAgICAgICAgICAgICAgZXJyTXNnID0gdG9zdHJpbmcocmVzcG9uc2UubWVzc2FnZSBvciByZXNwb25zZS5lcnJvciBvciAiSW52YWxpZCBLZXkhIikKICAgICAgICAgICAgICAgIGVsc2VpZiBub3Qgc3VjY2VzcyB0aGVuCiAgICAgICAgICAgICAgICAgICAgZXJyTXNnID0gIlNlcnZlciBFcnJvcjogIiAuLiB0b3N0cmluZyhyZXNwb25zZSkKICAgICAgICAgICAgICAgIGVuZAogICAgICAgICAgICAgICAgVmVsYXJpc1VJOk1ha2VOb3RpZnkoewogICAgICAgICAgICAgICAgICAgIFRpdGxlID0gIkF1dGggRmFpbGVkIiwgCiAgICAgICAgICAgICAgICAgICAgQ29udGVudCA9IGVyck1zZywgCiAgICAgICAgICAgICAgICAgICAgRHVyYXRpb24gPSA1CiAgICAgICAgICAgICAgICB9KQogICAgICAgICAgICAgICAgcmV0dXJuIGZhbHNlCiAgICAgICAgICAgIGVuZAogICAgICAgIGVuZCwKICAgIH0KfSkKCi0tID09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09Ci0tIEtleSBzdWRhaCB0ZXJ2YWxpZGFzaSEgKFdpbmRvdygpIHN1ZGFoIHJldHVybikKLS0gRGVzdHJveSB3aW5kb3cgbG9hZGVyIGtvc29uZywgbGFsdSBsb2FkIGdhbWUgc2NyaXB0LgotLSA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQpWZWxhcmlzVUk6TWFrZU5vdGlmeSh7IFRpdGxlID0gIk5leEh1YiIsIENvbnRlbnQgPSAiS2V5IFZlcmlmaWVkISBMb2FkaW5nICIgLi4gZGV0ZWN0ZWRHYW1lLm5hbWUgLi4gIi4uLiIsIER1cmF0aW9uID0gMyB9KQoKdGFzay53YWl0KDAuNSkKCi0tIERlc3Ryb3kgbG9hZGVyIHdpbmRvdyBkYW4gc2VtdWEgc2lzYSBHVUkKcGNhbGwoZnVuY3Rpb24oKQogICAgbG9jYWwgY29udGFpbmVycyA9IHt9CiAgICBwY2FsbChmdW5jdGlvbigpIHRhYmxlLmluc2VydChjb250YWluZXJzLCBnZXRodWkgYW5kIGdldGh1aSgpIG9yIGdhbWU6R2V0U2VydmljZSgiQ29yZUd1aSIpKSBlbmQpCiAgICBwY2FsbChmdW5jdGlvbigpIHRhYmxlLmluc2VydChjb250YWluZXJzLCBnYW1lOkdldFNlcnZpY2UoIkNvcmVHdWkiKSkgZW5kKQogICAgZm9yIF8sIHBhcmVudCBpbiBpcGFpcnMoY29udGFpbmVycykgZG8KICAgICAgICBpZiBwYXJlbnQgdGhlbgogICAgICAgICAgICBmb3IgXywgZ3VpIGluIGlwYWlycyhwYXJlbnQ6R2V0Q2hpbGRyZW4oKSkgZG8KICAgICAgICAgICAgICAgIGlmIGd1aTpJc0EoIlNjcmVlbkd1aSIpIHRoZW4KICAgICAgICAgICAgICAgICAgICBsb2NhbCBuYW1lID0gZ3VpLk5hbWUgb3IgIiIKICAgICAgICAgICAgICAgICAgICBpZiBuYW1lID09ICJOZXhIdWIiIG9yIG5hbWUgPT0gIlRvZ2dsZVVJQnV0dG9uIiB0aGVuCiAgICAgICAgICAgICAgICAgICAgICAgIHBjYWxsKGZ1bmN0aW9uKCkgZ3VpLkVuYWJsZWQgPSBmYWxzZTsgZ3VpOkRlc3Ryb3koKSBlbmQpCiAgICAgICAgICAgICAgICAgICAgZW5kCiAgICAgICAgICAgICAgICBlbmQKICAgICAgICAgICAgZW5kCiAgICAgICAgZW5kCiAgICBlbmQKZW5kKQoKdGFzay53YWl0KDAuMykKbG9hZEdhbWVTY3JpcHQoKQo="
+local decoded
+local ok, err = pcall(function()
+    if crypt and crypt.base64decode then decoded = crypt.base64decode(b64)
+    elseif base64_decode then decoded = base64_decode(b64)
+    elseif base64 and base64.decode then decoded = base64.decode(b64)
+    else
+        local chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+        local r = {}
+        b64 = b64:gsub('[^'..chars..'=]','')
+        local i = 1
+        while i <= #b64 do
+            local a = chars:find(b64:sub(i,i)) - 1
+            local b = chars:find(b64:sub(i+1,i+1)) - 1
+            local c = b64:sub(i+2,i+2) ~= '=' and (chars:find(b64:sub(i+2,i+2)) - 1) or 0
+            local d = b64:sub(i+3,i+3) ~= '=' and (chars:find(b64:sub(i+3,i+3)) - 1) or 0
+            local n = a*262144 + b*4096 + c*64 + d
+            table.insert(r, string.char(math.floor(n/65536)%256))
+            if b64:sub(i+2,i+2) ~= '=' then table.insert(r, string.char(math.floor(n/256)%256)) end
+            if b64:sub(i+3,i+3) ~= '=' then table.insert(r, string.char(n%256)) end
+            i = i + 4
+        end
+        decoded = table.concat(r)
+    end
 end)
-
--- ============================================
--- KONFIGURASI GAME & API
--- ============================================
-local API_URL = "https://nexhubser-api-production.up.railway.app/api/verify"
-local HttpService = game:GetService("HttpService")
-local currentPlaceId = game.PlaceId
-local currentGameId = game.GameId
-
--- Daftar game yang didukung
-local GameList = {
-    -- FREE GAMES
-    { name = "FishZar", placeIds = {121442629947656}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubFishZar.lua" },
-    { name = "Fish God", placeIds = {121500015379301}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubFishGod.lua" },
-    { name = "Survive The Apocalypse", placeIds = {90148635862803}, gameIds = {9098570654}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSurviveTheApocalypse.lua" },
-    { name = "Steal A Brainrots", gameIds = {7709344486}, type = "free", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSAB.lua" },
-
-    -- PREMIUM GAMES (Butuh Key)
-    { name = "Blox Fruits", placeIds = {2753915549, 4442272183, 7449423635}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/BloxFruitsLuxv%27SHubXNex_protected.lua" },
-    { name = "Violence District", placeIds = {93978595733734}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/main/NexHubVD.lua" },
-    { name = "Sailor Piece", placeIds = {77747658251236}, gameIds = {9186719164}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubSailorPiece.lua" },
-    { name = "Bite By Night", gameIds = {8202280624}, type = "premium", scriptUrl = "https://raw.githubusercontent.com/nexiuse/NexHub/refs/heads/main/NexHubBiteByNight.lua" },
-}
-
--- ============================================
--- DETEKSI GAME OTOMATIS
--- ============================================
-local detectedGame = nil
-
-for _, gameInfo in ipairs(GameList) do
-    if gameInfo.placeIds then
-        for _, pid in ipairs(gameInfo.placeIds) do
-            if currentPlaceId == pid then detectedGame = gameInfo break end
-        end
-    end
-    if not detectedGame and gameInfo.gameIds then
-        for _, gid in ipairs(gameInfo.gameIds) do
-            if currentGameId == gid then detectedGame = gameInfo break end
-        end
-    end
-    if detectedGame then break end
-end
-
--- ============================================
--- GAME TIDAK DIKENALI
--- ============================================
-if not detectedGame then
-    VelarisUI:MakeNotify({
-        Title = "NexHub Loader",
-        Content = "Game tidak dikenali.\nPlaceId: " .. tostring(currentPlaceId) .. "\nGameId: " .. tostring(currentGameId),
-        Duration = 10
-    })
-    return
-end
-
--- ============================================
--- FUNGSI: MUAT SCRIPT GAME
--- ============================================
-local function loadGameScript()
-    task.wait(0.5)
-    local success, err = pcall(function()
-        loadstring(game:HttpGet(detectedGame.scriptUrl))()
-    end)
-
-    if not success then
-        local errMsg = tostring(err)
-        if errMsg:find("404") then
-            errMsg = "File tidak ditemukan di GitHub! Cek URL: " .. detectedGame.scriptUrl
-        end
-        warn("NexHub Loader Error: " .. errMsg)
-    end
-end
-
--- ============================================
--- JALUR FREE: LANGSUNG MUAT
--- ============================================
-if detectedGame.type == "free" then
-    VelarisUI:MakeNotify({
-        Title = "NexHub - Free Access",
-        Content = "Game: " .. detectedGame.name .. " (Gratis). Memuat otomatis...",
-        Duration = 3
-    })
-    task.wait(1)
-    loadGameScript()
-    return
-end
-
--- ============================================
--- JALUR PREMIUM: KEY SYSTEM BAWAAN VELARISUI
--- ============================================
-local Analytics = game:GetService("RbxAnalyticsService")
-local HWID = "Unknown"
-pcall(function() 
-    if gethwid then HWID = gethwid() else HWID = Analytics:GetClientId() end
-end)
-
-local Window = VelarisUI:Window({
-    Title = "NexHub - " .. detectedGame.name,
-    Footer = ".",
-    Color = "Nex",
-    Author = "developed by Nex",
-    Folder = "NexHub-Auth",
-    Icon = "rbxassetid://82006436469351",
-    Image = "82006436469351",
-    Size = UDim2.fromOffset(450, 280),
-    Uitransparent = 0.35,
-    NewElements = true,
-    Keybind = Enum.KeyCode.LeftAlt,
-    ShowUser = true,
-    HideSearchBar = true,
-
-    -- KEY SYSTEM BAWAAN VELARISUI
-    KeySystem = {
-        Title = "NexHub - Authentication",
-        Icon = "lucide:key",
-        Placeholder = "Masukkan Kunci NexHub",
-        Default = "",
-        DiscordText = "Bergabung ke Discord",
-        DiscordUrl = "https://discord.gg/nexhub",
-        Links = {
-            { Name = "Dapatkan Kunci", Icon = "lucide:link", Url = "https://discord.gg/nexhub" },
-        },
-        Steps = {
-            "Selamat Datang di NexHub!",
-            "Game: " .. detectedGame.name .. " (Premium)",
-            "Masukkan kunci eksklusif dari Discord untuk melanjutkan.",
-        },
-        Callback = function(keyInput)
-            local isValid = false
-
-            local success, response = pcall(function()
-                local httpReq = (syn and syn.request) or request or http_request or (fluxus and fluxus.request)
-                if httpReq then
-                    local res = httpReq({
-                        Url = API_URL,
-                        Method = "POST",
-                        Headers = { ["Content-Type"] = "application/json" },
-                        Body = HttpService:JSONEncode({ 
-                            key = keyInput, 
-                            hwid = HWID, 
-                            userid = tostring(game:GetService("Players").LocalPlayer.UserId) 
-                        })
-                    })
-                    return HttpService:JSONDecode(res.Body)
-                else
-                    error("Executor tidak mendukung HTTP Request")
-                end
-            end)
-
-            if success and response then
-                if response.success then
-                    isValid = true
-                end
-            end
-
-            -- Jika valid, VelarisUI otomatis hilangkan key screen dan buka window
-            -- Kita destroy window loader lalu load script game
-            if isValid then
-                task.spawn(function()
-                    task.wait(1)
-                    -- Destroy loader window (yang kosong)
-                    pcall(function() Window:Destroy() end)
-                    -- Destroy toggle button via internal reference
-                    pcall(function() if Window._toggleGui then Window._toggleGui:Destroy() end end)
-                    task.wait(0.3)
-                    -- Hapus semua GUI sisa loader (ToggleUIButton + VelarisUI) dari CoreGui
-                    pcall(function()
-                        local containers = {}
-                        pcall(function() table.insert(containers, gethui and gethui() or game:GetService("CoreGui")) end)
-                        pcall(function() table.insert(containers, game:GetService("CoreGui")) end)
-                        for _, parent in ipairs(containers) do
-                            if parent then
-                                for _, gui in ipairs(parent:GetChildren()) do
-                                    if gui:IsA("ScreenGui") then
-                                        local name = gui.Name or ""
-                                        -- Hapus ToggleUIButton (icon NX) dan VelarisUI (window utama)
-                                        if name == "ToggleUIButton" or name == "VelarisUI" then
-                                            pcall(function() gui.Enabled = false; gui:Destroy() end)
-                                        end
-                                    end
-                                end
-                            end
-                        end
-                    end)
-                    task.wait(0.5)
-                    loadGameScript()
-                end)
-            end
-
-            return isValid
-        end,
-    }
-})
+if not ok then warn('Decode error:', err) return end
+local fn, compileErr = loadstring(decoded)
+if not fn then warn('Compile error:', compileErr) return end
+fn()
