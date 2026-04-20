@@ -160,12 +160,7 @@ local Window = VelarisUI:Window({
             "Masukkan kunci eksklusif dari Discord untuk melanjutkan.",
         },
         Callback = function(keyInput)
-            -- Dev bypass
-            if keyInput == "NEXHUB_DEV" then
-                VelarisUI:MakeNotify({ Title = "System", Content = "Developer Bypass Passed!", Duration = 3 })
-                return true
-            end
-
+            
             -- API verification
             local success, response = pcall(function()
                 local httpReq = (syn and syn.request) or request or http_request or (fluxus and fluxus.request)
