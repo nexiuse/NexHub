@@ -86,7 +86,7 @@ if not detectedGame then
     VelarisUI:MakeNotify({
         Title = "NexHub Loader",
         Content = "Game tidak dikenali.\nPlaceId: " .. tostring(currentPlaceId) .. "\nGameId: " .. tostring(currentGameId),
-        Duration = 10
+        Delay = 10
     })
     return
 end
@@ -116,7 +116,7 @@ if detectedGame.type == "free" then
     VelarisUI:MakeNotify({
         Title = "NexHub - Free Access",
         Content = "Game: " .. detectedGame.name .. " (Gratis). Memuat otomatis...",
-        Duration = 3
+        Delay = 3
     })
     task.wait(1)
     loadGameScript()
@@ -198,7 +198,7 @@ local Window = VelarisUI:Window({
                 VelarisUI:MakeNotify({
                     Title = "Auth Failed", 
                     Content = errMsg, 
-                    Duration = 5
+                    Delay = 5
                 })
                 return false
             end
@@ -210,7 +210,7 @@ local Window = VelarisUI:Window({
 -- Key sudah tervalidasi! (Window() sudah return)
 -- Destroy window loader kosong, lalu load game script.
 -- ============================================
-VelarisUI:MakeNotify({ Title = "NexHub", Content = "Key Verified! Loading " .. detectedGame.name .. "...", Duration = 3 })
+VelarisUI:MakeNotify({ Title = "NexHub", Content = "Key Verified! Loading " .. detectedGame.name .. "...", Delay = 3 })
 
 task.wait(0.5)
 
@@ -224,7 +224,7 @@ pcall(function()
             for _, gui in ipairs(parent:GetChildren()) do
                 if gui:IsA("ScreenGui") then
                     local name = gui.Name or ""
-                    if name == "NexHub" or name == "ToggleUIButton" or name == "VelarisUI" then
+                    if name == "NexHub" or name == "ToggleUIButton" or name == "VelarisUI" or name == "VelarisNotifyGui" then
                         pcall(function() gui.Enabled = false; gui:Destroy() end)
                     end
                 end
