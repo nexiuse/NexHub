@@ -96,6 +96,26 @@ end
 -- ============================================
 local function loadGameScript()
     task.wait(0.5)
+    
+    -- Destroy loader window dan semua sisa GUI sebelum memuat Game Script
+    pcall(function()
+        local containers = {}
+        pcall(function() table.insert(containers, gethui and gethui() or game:GetService("CoreGui")) end)
+        pcall(function() table.insert(containers, game:GetService("CoreGui")) end)
+        for _, parent in ipairs(containers) do
+            if parent then
+                for _, gui in ipairs(parent:GetChildren()) do
+                    if gui:IsA("ScreenGui") then
+                        local name = gui.Name or ""
+                        if name == "NexHub" or name == "ToggleUIButton" or name == "VelarisUI" or name == "VelarisNotifyGui" then
+                            pcall(function() gui.Enabled = false; gui:Destroy() end)
+                        end
+                    end
+                end
+            end
+        end
+    end)
+    
     local success, err = pcall(function()
         loadstring(game:HttpGet(detectedGame.scriptUrl))()
     end)
@@ -214,24 +234,5 @@ VelarisUI:MakeNotify({ Title = "NexHub", Content = "Key Verified! Loading " .. d
 
 task.wait(0.5)
 
--- Destroy loader window dan semua sisa GUI
-pcall(function()
-    local containers = {}
-    pcall(function() table.insert(containers, gethui and gethui() or game:GetService("CoreGui")) end)
-    pcall(function() table.insert(containers, game:GetService("CoreGui")) end)
-    for _, parent in ipairs(containers) do
-        if parent then
-            for _, gui in ipairs(parent:GetChildren()) do
-                if gui:IsA("ScreenGui") then
-                    local name = gui.Name or ""
-                    if name == "NexHub" or name == "ToggleUIButton" or name == "VelarisUI" or name == "VelarisNotifyGui" then
-                        pcall(function() gui.Enabled = false; gui:Destroy() end)
-                    end
-                end
-            end
-        end
-    end
-end)
-
-task.wait(0.3)
+task.wait(1)
 loadGameScript()
