@@ -4,6 +4,11 @@
 -- ============================================
 local VelarisUI
 do
+    -- [PATCH] Fix untuk Notify.lua di repository remote yang lupa mendefinisikan HttpService
+    pcall(function()
+        getgenv().HttpService = game:GetService("HttpService")
+    end)
+    
     local ok, result = pcall(function()
         return loadstring(game:HttpGet("https://raw.githubusercontent.com/nexiuse/NexHub_UI/refs/heads/main/NexHub_CustomUI.lua", true))()
     end)
