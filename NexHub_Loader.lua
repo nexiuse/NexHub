@@ -86,7 +86,8 @@ if not detectedGame then
     VelarisUI:MakeNotify({
         Title = "NexHub Loader",
         Content = "Game tidak dikenali.\nPlaceId: " .. tostring(currentPlaceId) .. "\nGameId: " .. tostring(currentGameId),
-        Delay = 10
+        Delay = 10,
+        Icon = "rbxassetid://7733765398"
     })
     return
 end
@@ -136,7 +137,8 @@ if detectedGame.type == "free" then
     VelarisUI:MakeNotify({
         Title = "NexHub - Free Access",
         Content = "Game: " .. detectedGame.name .. " (Gratis). Memuat otomatis...",
-        Delay = 3
+        Delay = 3,
+        Icon = "rbxassetid://7733765398"
     })
     task.wait(1)
     loadGameScript()
@@ -218,7 +220,8 @@ local Window = VelarisUI:Window({
                 VelarisUI:MakeNotify({
                     Title = "Auth Failed", 
                     Content = errMsg, 
-                    Delay = 5
+                    Delay = 5,
+                    Icon = "rbxassetid://7733658504"
                 })
                 return false
             end
@@ -230,7 +233,7 @@ local Window = VelarisUI:Window({
 -- Key sudah tervalidasi! (Window() sudah return)
 -- Destroy window loader kosong, lalu load game script.
 -- ============================================
-VelarisUI:MakeNotify({ Title = "NexHub", Content = "Key Verified! Loading " .. detectedGame.name .. "...", Delay = 3 })
+VelarisUI:MakeNotify({ Title = "NexHub", Content = "Key Verified! Loading " .. detectedGame.name .. "...", Delay = 3, Icon = "rbxassetid://7733085271" })
 
 task.wait(0.5)
 
